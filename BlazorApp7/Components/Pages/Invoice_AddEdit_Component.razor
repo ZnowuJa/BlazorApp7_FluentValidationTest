@@ -1,0 +1,49 @@
+﻿@page "/invoiceadd"
+@using BlazorApp7.Models
+@inject ILogger<Invoice> _logger
+
+<h3>Invoice_AddEdit_Component</h3>
+
+<EditForm Model="@Model" OnValidSubmit="@ValidSubmit" OnInvalidSubmit="@InValidSubmit" FormName="InvoiceAdd">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div>
+        <label>
+            Identifier:
+            <InputText @bind-Value="Model!.Id" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Description:
+            <InputTextArea @bind-Value="Model!.Description" />
+        </label>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
+
+
+@code {
+    [SupplyParameterFromForm]
+    private Invoice? Model { get; set; }
+
+    protected override void OnInitialized() =>
+    Model ??= new() { Created = DateTime.UtcNow };
+
+    private void ValidSubmit()
+    {
+        _logger.LogInformation("Coś tu się zadziało...",
+            Model?.Id, Model?.Description, Model?.Name,
+            Model?.Created, Model?.Delivery,
+            Model?.Qty);
+    }
+    private void InValidSubmit()
+    {
+        _logger.LogInformation("Coś tu się źle zadziało...",
+            Model?.Id, Model?.Description, Model?.Name,
+            Model?.Created, Model?.Delivery,
+            Model?.Qty);
+    }
+}
