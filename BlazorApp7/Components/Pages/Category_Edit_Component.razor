@@ -21,8 +21,9 @@
 
 @* Body *@
 <FluentDialogBody Orientation="Orientation.Horizontal">
-    <EditForm Model="Content">
+    <EditForm Model="_editContext">
         <FluentValidationValidator @ref="_fluentValidator"/>
+        <FluentValidationSummary />
 
         <FluentTextField Id="Name" @bind-Value="@Content.Name" Placeholder="Enter name" />
         <FluentValidationMessage For="@(() => Content.Name)" />
@@ -76,7 +77,7 @@
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
-    // private EditContext _editContext;
+    private EditContext _editContext;
     // private EditContext _editContextCatgoryType;
 
     private FluentValidationValidator? _fluentValidator;
@@ -87,7 +88,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // _editContext = new EditContext(Content);
+        _editContext = new EditContext(Content);
         // catTypeVmList = await _mediator.Send(new GetAllCategoryTypesForSelectQuery());
         List<CategoryTypeVm> catTypeVms = new()
         {
